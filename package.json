@@ -1,0 +1,23 @@
+{
+  "name": "tempo-daily-email",
+  "version": "1.0.0",
+  "description": "Generates a daily email for work completed in jira. Use Tempo and Jira api's",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lewis785/tempo-daily-email.git"
+  },
+  "keywords": [
+    "Tempo",
+    "Jira"
+  ],
+  "author": "Lewis McNeill",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lewis785/tempo-daily-email/issues"
+  },
+  "homepage": "https://github.com/lewis785/tempo-daily-email#readme"
+}
