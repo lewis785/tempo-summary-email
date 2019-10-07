@@ -1,0 +1,9 @@
+{
+  "tempo": {
+    "apiKey": "API_KEY"
+  },
+  "jira": {
+    "username": "USERNAME",
+    "apiKey": "API_KEY"
+  }
+}
