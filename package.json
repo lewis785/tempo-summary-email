@@ -1,10 +1,13 @@
 {
   "name": "tempo-daily-email",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Generates a daily email for work completed in jira. Use Tempo and Jira api's",
   "main": "src/index.js",
   "scripts": {
-    "start": "node -r esm ./src/index.js",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "tslint -p tsconfig.json",
+    "start": "tsc && node ./build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +28,11 @@
     "esm": "^3.2.25",
     "jira-client": "^6.12.0",
     "tempo-client": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/jira-client": "^6.4.6",
+    "@types/request-promise": "^4.1.44",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
   }
 }

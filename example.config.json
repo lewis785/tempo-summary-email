@@ -4,6 +4,7 @@
   },
   "jira": {
     "username": "USERNAME",
-    "apiKey": "API_KEY"
+    "apiKey": "API_KEY",
+    "domain": "DOMAIN"
   }
 }
