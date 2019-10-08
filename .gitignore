@@ -65,3 +65,6 @@ typings/
 
 # Config file
 config.json
+
+# lib directory
+lib/
