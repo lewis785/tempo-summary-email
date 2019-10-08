@@ -25,7 +25,6 @@
   },
   "homepage": "https://github.com/lewis785/tempo-daily-email#readme",
   "dependencies": {
-    "esm": "^3.2.25",
     "jira-client": "^6.12.0",
     "tempo-client": "^0.1.2"
   },
