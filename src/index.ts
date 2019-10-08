@@ -1,5 +1,6 @@
 import JiraApi from 'jira-client'
-import TempoApi  from 'tempo-client'
+import TempoApi from 'tempo-client'
+import Worklog from './entity/Worklog'
 
 const config = require('../config.json');
 
@@ -10,8 +11,7 @@ interface ITempoDailyEmailOptions {
     jiraDomain: string
 }
 
-class TempoDailyEmail
-{
+class TempoDailyEmail {
     public readonly tempoApiKey: string;
     public readonly jiraUsername: string;
     public readonly jiraApiKey: string;
@@ -45,52 +45,40 @@ class TempoDailyEmail
         });
     }
 
-    public retrieveTempoData() {
+    private async getUserAccountId() {
         const jira = this.createJiraClient();
+        const response = await jira.getCurrentUser().catch(reason => {
+            throw new Error(reason)
+        });
+
+        return response.accountId
+    }
+
+    public async retrieveTempoData() {
+        const accountId = await this.getUserAccountId();
+        console.log(accountId);
+
         const tempo = this.createTempoClient();
 
-        jira.getCurrentUser()
-            .then(user => {
-                const accountId = user.accountId;
-                tempo.getWorklogsForUser(
-                    accountId,
-                    {
-                        from: '2019-10-01',
-                        to: '2019-10-07'
-                    }
-                )
-                    .then(worklogs => {
-                        const results = worklogs.results;
-                        const output = {};
-                        for (let index in results) {
-                            if (!results.hasOwnProperty(index)) {
-                                continue
-                            }
+        const worklogs = await tempo.getWorklogsForUser(
+            accountId,
+            {
+                from: '2019-10-08',
+                to: '2019-10-08'
+            }
+        ).catch(err => {
+            console.log(err);
+        });
 
-                            const log = results[index];
-                            const task = {
-                                description: log.description,
-                                timeSpent: log.timeSpentSeconds,
-                                workType: log.attributes.values[0].value
-                            };
+        const results = worklogs.results;
+        for (let index in results) {
+            if (!results.hasOwnProperty(index)) {
+                continue
+            }
 
-                            console.log(log.jiraWorklogId);
-                            // if (!output.hasOwnProperty(log.issue.key)) {
-                            //   output[log.issue.key] = [task]
-                            // } else {
-                            //   output[log.issue.key].push(task)
-                            // }
-
-                        }
-                        console.log(output)
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    });
-            })
-            .catch(err => {
-                console.error(err);
-            });
+            const task = new Worklog(results[index]);
+            console.log(task.workType);
+        }
     }
 }
 
