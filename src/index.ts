@@ -90,4 +90,3 @@ const temp = new TempoDailyEmail({
 });
 
 temp.retrieveTempoData();
-
