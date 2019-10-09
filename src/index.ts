@@ -1,6 +1,8 @@
 import JiraApi from 'jira-client'
 import TempoApi from 'tempo-client'
 import Worklog from './entity/Worklog'
+import JiraIssue from './entity/JiraIssue'
+import GenerateEmail from "./GenerateEmail";
 
 const config = require('../config.json');
 
@@ -24,8 +26,7 @@ class TempoDailyEmail {
         this.jiraDomain = options.jiraDomain;
     }
 
-
-    private createTempoClient() {
+    private createTempoClient(): TempoApi {
         return new TempoApi({
             protocol: 'https',
             host: 'api.tempo.io',
@@ -34,7 +35,7 @@ class TempoDailyEmail {
         })
     }
 
-    private createJiraClient() {
+    private createJiraClient(): JiraApi {
         return new JiraApi({
             protocol: 'https',
             host: this.jiraDomain,
@@ -54,31 +55,37 @@ class TempoDailyEmail {
         return response.accountId
     }
 
-    public async retrieveTempoData() {
+    public async retrieveTempoData(from:string, to:string) {
         const accountId = await this.getUserAccountId();
-        console.log(accountId);
-
         const tempo = this.createTempoClient();
 
-        const worklogs = await tempo.getWorklogsForUser(
+        const tempoWorklogs = await tempo.getWorklogsForUser(
             accountId,
             {
-                from: '2019-10-08',
-                to: '2019-10-08'
+                from: from,
+                to: to
             }
         ).catch(err => {
             console.log(err);
         });
 
-        const results = worklogs.results;
+        const results = tempoWorklogs.results;
+        const worklogs = [];
+        const jira = this.createJiraClient();
         for (let index in results) {
             if (!results.hasOwnProperty(index)) {
                 continue
             }
+            const worklog = new Worklog(results[index]);
+            worklogs.push(worklog);
 
-            const task = new Worklog(results[index]);
-            console.log(task.workType);
+            const issue = await jira.findIssue(worklog.issueKey);
+            const jiraIssue = new JiraIssue(issue, config.jira.domain);
+            console.log(jiraIssue.getIssueUrl());
         }
+
+        const emailGenerator = new GenerateEmail(worklogs);
+        console.log(emailGenerator.generateEmail());
     }
 }
 
@@ -89,4 +96,4 @@ const temp = new TempoDailyEmail({
     jiraDomain: config.jira.domain
 });
 
-temp.retrieveTempoData();
+temp.retrieveTempoData('2019-10-09', '2019-10-09');
