@@ -8,7 +8,7 @@
     "dev": "tsc --watch",
     "lint": "tslint -p tsconfig.json",
     "start": "tsc && node ./build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": ""
   },
   "repository": {
     "type": "git",
