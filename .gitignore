@@ -64,7 +64,7 @@ typings/
 .idea/
 
 # Config file
-config.json
+src/config.json
 
 # build directory
 build/

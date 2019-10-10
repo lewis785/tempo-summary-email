@@ -1,16 +1,15 @@
-import JiraApi from 'jira-client'
-import TempoApi from 'tempo-client'
-import Worklog from './entity/Worklog'
-import JiraIssue from './entity/JiraIssue'
-import GenerateEmail from "./GenerateEmail";
-
-const config = require('../config.json');
+import JiraApi from "jira-client";
+import TempoApi from "tempo-client";
+import Config from "./config.json";
+import JiraIssue from "./entity/JiraIssue";
+import Worklog from "./entity/Worklog";
+import GenerateEmail from "./GenerateEmail"
 
 interface ITempoDailyEmailOptions {
-    tempoApiKey: string,
-    jiraUsername: string,
-    jiraApiKey: string,
-    jiraDomain: string
+    tempoApiKey: string;
+    jiraUsername: string;
+    jiraApiKey: string;
+    jiraDomain: string;
 }
 
 class TempoDailyEmail {
@@ -26,74 +25,70 @@ class TempoDailyEmail {
         this.jiraDomain = options.jiraDomain;
     }
 
-    private createTempoClient(): TempoApi {
-        return new TempoApi({
-            protocol: 'https',
-            host: 'api.tempo.io',
-            bearerToken: this.tempoApiKey,
-            apiVersion: '3'
-        })
-    }
-
-    private createJiraClient(): JiraApi {
-        return new JiraApi({
-            protocol: 'https',
-            host: this.jiraDomain,
-            username: this.jiraUsername,
-            password: this.jiraApiKey,
-            apiVersion: '3',
-            strictSSL: true
-        });
-    }
-
-    private async getUserAccountId() {
-        const jira = this.createJiraClient();
-        const response = await jira.getCurrentUser().catch(reason => {
-            throw new Error(reason)
-        });
-
-        return response.accountId
-    }
-
-    public async retrieveTempoData(from:string, to:string) {
+    public async retrieveTempoData(from: string, to: string) {
         const accountId = await this.getUserAccountId();
         const tempo = this.createTempoClient();
 
         const tempoWorklogs = await tempo.getWorklogsForUser(
             accountId,
             {
-                from: from,
-                to: to
-            }
-        ).catch(err => {
-            console.log(err);
-        });
+                from,
+                to,
+            },
+        );
 
         const results = tempoWorklogs.results;
         const worklogs = [];
         const jira = this.createJiraClient();
-        for (let index in results) {
+        for (const index in results) {
             if (!results.hasOwnProperty(index)) {
-                continue
+                continue;
             }
             const worklog = new Worklog(results[index]);
             worklogs.push(worklog);
 
             const issue = await jira.findIssue(worklog.issueKey);
-            const jiraIssue = new JiraIssue(issue, config.jira.domain);
-            console.log(jiraIssue.getIssueUrl());
+            const jiraIssue = new JiraIssue(issue, Config.jira.domain);
         }
 
         const emailGenerator = new GenerateEmail(worklogs);
-        console.log(emailGenerator.generateEmail());
+    }
+
+    private createTempoClient(): TempoApi {
+        return new TempoApi({
+            apiVersion: "3",
+            bearerToken: this.tempoApiKey,
+            host: "api.tempo.io",
+            protocol: "https",
+        });
+    }
+
+    private createJiraClient(): JiraApi {
+        return new JiraApi({
+            apiVersion: "3",
+            host: this.jiraDomain,
+            password: this.jiraApiKey,
+            protocol: "https",
+            strictSSL: true,
+            username: this.jiraUsername,
+        });
+    }
+
+    private async getUserAccountId() {
+        const jira = this.createJiraClient();
+        const response = await jira.getCurrentUser().catch((reason) => {
+            throw new Error(reason);
+        });
+
+        return response.accountId;
     }
 }
 
 const temp = new TempoDailyEmail({
-    tempoApiKey: config.tempo.apiKey,
-    jiraUsername: config.jira.username,
-    jiraApiKey: config.jira.apiKey,
-    jiraDomain: config.jira.domain
+    jiraApiKey: Config.jira.apiKey,
+    jiraDomain: Config.jira.domain,
+    jiraUsername: Config.jira.username,
+    tempoApiKey: Config.tempo.apiKey,
 });
 
-temp.retrieveTempoData('2019-10-09', '2019-10-09');
+temp.retrieveTempoData("2019-10-09", "2019-10-09");
