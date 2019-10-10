@@ -48,7 +48,7 @@ class TempoDailyEmail {
             worklogs.push(worklog);
 
             const issue = await jira.findIssue(worklog.issueKey);
-            const jiraIssue = new JiraIssue(issue, Config.jira.domain);
+            const jiraIssue = new JiraIssue(issue, this.jiraDomain);
         }
 
         const emailGenerator = new GenerateEmail(worklogs);
