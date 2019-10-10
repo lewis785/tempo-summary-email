@@ -9,8 +9,8 @@
     "lint": "tslint -p tsconfig.json",
     "lint-fix": "tslint --fix -p tsconfig.json",
     "start": "tsc && node ./build/index.js",
-    "test": "jest --passWithNoTests --config jestconfig.json",
-    "coverage": "jest --coverage --passWithNoTests --config jestconfig.json"
+    "test": "jest --config jestconfig.json",
+    "coverage": "jest --coverage --config jestconfig.json"
   },
   "repository": {
     "type": "git",
