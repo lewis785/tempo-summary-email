@@ -3,7 +3,7 @@ import TempoApi from "tempo-client";
 // import Config from "./config.json";
 import JiraIssue from "./entity/JiraIssue";
 import Worklog from "./entity/Worklog";
-import GenerateEmail from "./GenerateEmail"
+import GenerateEmail from "./GenerateEmail";
 
 interface ITempoDailyEmailOptions {
     tempoApiKey: string;
