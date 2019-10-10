@@ -1,6 +1,6 @@
 import JiraApi from "jira-client";
 import TempoApi from "tempo-client";
-import Config from "./config.json";
+// import Config from "./config.json";
 import JiraIssue from "./entity/JiraIssue";
 import Worklog from "./entity/Worklog";
 import GenerateEmail from "./GenerateEmail"
@@ -84,11 +84,11 @@ class TempoDailyEmail {
     }
 }
 
-const temp = new TempoDailyEmail({
-    jiraApiKey: Config.jira.apiKey,
-    jiraDomain: Config.jira.domain,
-    jiraUsername: Config.jira.username,
-    tempoApiKey: Config.tempo.apiKey,
-});
-
-temp.retrieveTempoData("2019-10-09", "2019-10-09");
+// const temp = new TempoDailyEmail({
+//     jiraApiKey: Config.jira.apiKey,
+//     jiraDomain: Config.jira.domain,
+//     jiraUsername: Config.jira.username,
+//     tempoApiKey: Config.tempo.apiKey,
+// });
+//
+// temp.retrieveTempoData("2019-10-09", "2019-10-09");
