@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "eslint": "eslint 'src/**/*.ts'",
+    "eslint": "eslint \"src/**/*.ts\"",
     "start": "tsc && node ./build/index.js",
     "test": "jest --config jestconfig.json",
     "coverage": "jest --coverage --config jestconfig.json"
