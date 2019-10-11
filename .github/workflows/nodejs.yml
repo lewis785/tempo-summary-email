@@ -20,7 +20,7 @@ jobs:
     - name: npm install and tslint
       run: |
         npm install
-        npm run lint
+        npm run eslint
     - name: build and test
       run: |
         npm run build

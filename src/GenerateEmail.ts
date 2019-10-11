@@ -17,7 +17,7 @@ ${worklog.description} - ${worklog.timeSpentHours}h (${worklog.timeSpentMinutes}
     public generateEmail() {
         let output = "";
         for (const worklog in this.worklogs) {
-            if (this.worklogs.hasOwnProperty(worklog)) {
+            if (Object.prototype.hasOwnProperty.call(this.worklogs, worklog)) {
                 output += GenerateEmail.generateDetails(this.worklogs[worklog]);
             }
         }

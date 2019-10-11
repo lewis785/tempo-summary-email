@@ -41,7 +41,7 @@ class TempoDailyEmail {
         const worklogs = [];
         const jira = this.createJiraClient();
         for (const index in results) {
-            if (!results.hasOwnProperty(index)) {
+            if (!Object.prototype.hasOwnProperty.call(results, index)) {
                 continue;
             }
             const worklog = new Worklog(results[index]);

@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "lint": "tslint -p tsconfig.json",
-    "lint-fix": "tslint --fix -p tsconfig.json",
+    "eslint": "eslint 'src/**/*.ts'",
     "start": "tsc && node ./build/index.js",
     "test": "jest --config jestconfig.json",
     "coverage": "jest --coverage --config jestconfig.json"
@@ -34,9 +33,11 @@
     "@types/jest": "^24.0.18",
     "@types/jira-client": "^6.4.6",
     "@types/request-promise": "^4.1.44",
+    "@typescript-eslint/eslint-plugin": "^2.3.3",
+    "@typescript-eslint/parser": "^2.3.3",
+    "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
-    "tslint": "^5.20.0",
     "typescript": "^3.6.4"
   }
 }
