@@ -1,26 +1,26 @@
 import Worklog from "../../src/entity/Worklog";
 
-test("timeSpentSeconds", () => {
+it("timeSpentSeconds", () => {
     const worklog = new Worklog(exampleData);
     expect(worklog.timeSpentSeconds).toBe(1200);
 });
 
-test("timeSpentMinute", () => {
+it("timeSpentMinute", () => {
     const worklog = new Worklog(exampleData);
     expect(worklog.timeSpentMinutes).toBe(20);
 });
 
-test("timeSpentHour", () => {
+it("timeSpentHour", () => {
     const worklog = new Worklog(exampleData);
     expect(worklog.timeSpentHours).toBe(0.33);
 });
 
-test("issueKey", () => {
+it("issueKey", () => {
     const worklog = new Worklog(exampleData);
     expect(worklog.issueKey).toBe("ABC-123");
 });
 
-test("description", () => {
+it("description", () => {
     const worklog = new Worklog(exampleData);
     expect(worklog.description).toBe("This is an example description");
 });

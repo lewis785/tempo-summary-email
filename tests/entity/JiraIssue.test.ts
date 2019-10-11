@@ -1,6 +1,6 @@
 import JiraIssue from "../../src/entity/JiraIssue";
 
-test("getIssueUrl", () => {
+it("getIssueUrl", () => {
     const data = {
         key: "ABC-123",
     };
