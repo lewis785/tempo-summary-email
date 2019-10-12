@@ -1,5 +1,5 @@
 // import JiraIssue from "../../src/entity/JiraIssue";
-import Record from "../../src/entity/Record";
+import SummaryItem from "../../src/entity/SummaryItem";
 import JiraIssue from "../../src/entity/JiraIssue";
 import Worklog from "../../src/entity/Worklog";
 
@@ -8,14 +8,14 @@ jest.mock("../../src/entity/Worklog");
 
 it("getJiraIssue", () => {
     const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");
-    const record = new Record(jiraIssue);
+    const record = new SummaryItem(jiraIssue);
     expect(record.getJiraIssue()).toBe(jiraIssue)
 });
 
 it("test add and get worklog", () => {
     const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");
     const worklog = new Worklog(worklogJson);
-    const record = new Record(jiraIssue);
+    const record = new SummaryItem(jiraIssue);
     record.addWorklog(worklog);
     expect(record.getWorklogs()).toStrictEqual([worklog])
 });

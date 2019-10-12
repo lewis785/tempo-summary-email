@@ -1,7 +1,7 @@
 import JiraIssue from "./JiraIssue";
 import Worklog from "./Worklog"
 
-export default class Record {
+export default class SummaryItem {
     private readonly jiraIssue: JiraIssue;
     private readonly worklogs: Worklog[];
 

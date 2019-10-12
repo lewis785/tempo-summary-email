@@ -1,5 +1,5 @@
 import Worklog from "./entity/Worklog";
-import Record from "./entity/Record";
+import SummaryItem from "./entity/SummaryItem";
 import User from "./entity/User";
 
 export default class GenerateEmail {
@@ -8,20 +8,20 @@ export default class GenerateEmail {
         return `\t\u2022 (${worklog.getDate()}) [${worklog.getTimeSpentMinutes()}m/${worklog.getTimeSpentHours()}h] - ${worklog.getDescription()}\n`;
     }
 
-    private readonly records: Record[];
+    private readonly summaryItems: SummaryItem[];
     private readonly user: User;
 
-    constructor(user: User, records: Record[]) {
-        this.records = records;
+    constructor(user: User, records: SummaryItem[]) {
+        this.summaryItems = records;
         this.user = user;
     }
 
     private buildWorklog(): string {
         let worklogText = "";
-        this.records.forEach((record) => {
-            worklogText += `\n${record.getJiraIssue().getSummary()} (${record.getJiraIssue().getIssueKey()}): ${record.getJiraIssue().getIssueUrl()}\n`;
+        this.summaryItems.forEach((summaryItem) => {
+            worklogText += `\n${summaryItem.getJiraIssue().getSummary()} (${summaryItem.getJiraIssue().getIssueKey()}): ${summaryItem.getJiraIssue().getIssueUrl()}\n`;
 
-            record.getWorklogs().forEach((worklog) => {
+            summaryItem.getWorklogs().forEach((worklog) => {
                 worklogText += GenerateEmail.generateDetails(worklog)
             });
         });

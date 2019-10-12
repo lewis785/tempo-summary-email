@@ -3,7 +3,7 @@ import TempoApi from "tempo-client";
 // import Config from "./config.json";
 import JiraIssue, {JiraIssueJson} from "./entity/JiraIssue";
 import Worklog from "./entity/Worklog";
-import Record from "./entity/Record";
+import SummaryItem from "./entity/SummaryItem";
 import GenerateEmail from "./GenerateEmail";
 import User, {UserJson} from "./entity/User";
 
@@ -42,7 +42,7 @@ export default class TempoDailyEmail {
         const results = tempoWorklogs.results;
         const jira = this.createJiraClient();
 
-        const records: {[id: string] :Record} = {};
+        const summaryItems: {[id: string] :SummaryItem} = {};
 
         for (const index in results) {
             if (!Object.prototype.hasOwnProperty.call(results, index)) {
@@ -50,22 +50,22 @@ export default class TempoDailyEmail {
             }
             const worklog = new Worklog(results[index]);
 
-            let record;
-            if (worklog.getIssueKey() in records) {
-                record = records[worklog.getIssueKey()]
+            let summaryItem;
+            if (worklog.getIssueKey() in summaryItems) {
+                summaryItem = summaryItems[worklog.getIssueKey()]
             } else {
                 const issue = await jira.findIssue(worklog.getIssueKey()) as JiraIssueJson;
                 const jiraIssue = new JiraIssue(issue, this.jiraDomain);
-                record = new Record(jiraIssue);
+                summaryItem = new SummaryItem(jiraIssue);
                 // eslint-disable-next-line require-atomic-updates
-                records[worklog.getIssueKey()] = record
+                summaryItems[worklog.getIssueKey()] = summaryItem
             }
 
-            record.addWorklog(worklog);
+            summaryItem.addWorklog(worklog);
         }
 
-        const recordArray = Object.keys(records).map(i => records[i]);
-        return new GenerateEmail(user, recordArray);
+        const summaryItemArray = Object.keys(summaryItems).map(i => summaryItems[i]);
+        return new GenerateEmail(user, summaryItemArray);
     }
 
     private createTempoClient(): TempoApi {
