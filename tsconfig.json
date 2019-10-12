@@ -17,7 +17,7 @@
     "strict": true
   },
   "include": [
-    "src/**/*",
-    "tests/**/*"
+    "src",
+    "tests"
   ]
 }
