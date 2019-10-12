@@ -1,31 +1,42 @@
 import Worklog from "./entity/Worklog";
 import Record from "./entity/Record";
+import User from "./entity/User";
 
 export default class GenerateEmail {
 
     private static generateDetails(worklog: Worklog): string {
-        return `    \u2022 ${worklog.description} - ${worklog.timeSpentHours}h (${worklog.timeSpentMinutes}m)\n`;
+        return `\t\u2022 (${worklog.getDate()}) [${worklog.getTimeSpentMinutes()}m/${worklog.getTimeSpentHours()}h] - ${worklog.getDescription()}\n`;
     }
 
     private readonly records: Record[];
+    private readonly user: User;
 
-    constructor(records: Record[]) {
+    constructor(user: User, records: Record[]) {
         this.records = records;
+        this.user = user;
+    }
+
+    private buildWorklog(): string {
+        let worklogText = "";
+        this.records.forEach((record) => {
+            worklogText += `\n${record.getJiraIssue().getSummary()} (${record.getJiraIssue().getIssueKey()}): ${record.getJiraIssue().getIssueUrl()}\n`;
+
+            record.getWorklogs().forEach((worklog) => {
+                worklogText += GenerateEmail.generateDetails(worklog)
+            });
+        });
+
+        return worklogText.replace(/^\s+|\s+$/g, '');
     }
 
     public generateEmail(): string {
-        let output = "";
+        return`Hi,
+        
+Today I have worked on:
 
-        this.records.forEach((record) => {
-            output += `\u2022 ${record.getJiraIssue().getSummary()} (${record.getJiraIssue().getIssueKey()}) - ${record.getJiraIssue().getIssueUrl()}\n`;
+${this.buildWorklog()}
 
-            record.getWorklogs().forEach((worklog) => {
-              output += GenerateEmail.generateDetails(worklog)
-            });
-
-            output += "\n";
-        });
-
-        return output;
+Thanks,
+${this.user.getDisplayName()}`;
     }
 }
