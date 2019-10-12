@@ -1,8 +1,15 @@
+export interface JiraIssueJson {
+    key: string;
+    fields: {
+        summary: string;
+    };
+}
+
 export default class JiraIssue {
-    private readonly data: any;
+    private readonly data: JiraIssueJson;
     private readonly domain: string;
 
-    constructor(data: any, domain: string) {
+    constructor(data: JiraIssueJson, domain: string) {
         this.data = data;
         this.domain = domain;
     }

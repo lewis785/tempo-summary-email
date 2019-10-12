@@ -1,33 +1,43 @@
-export default class Worklog {
-    private data: any;
+export interface WorklogJson {
+    timeSpentSeconds: number;
+    issue: {
+        key: string;
+    };
+    description: string;
+    startDate: string;
+}
 
-    constructor(data: any) {
+
+export default class Worklog {
+    private data: WorklogJson;
+
+    constructor(data: WorklogJson) {
         this.data = data;
     }
 
-    get timeSpentSeconds(): number {
+    public getTimeSpentSeconds(): number {
         return this.data.timeSpentSeconds;
     }
 
-    get timeSpentMinutes(): number {
-        const timeInHours = (this.timeSpentSeconds / 60);
+    public getTimeSpentMinutes(): number {
+        const timeInHours = (this.getTimeSpentSeconds() / 60);
         return Math.round(timeInHours * 100) / 100;
     }
 
-    get timeSpentHours(): number {
-        const timeInHours = (this.timeSpentMinutes / 60);
+    public getTimeSpentHours(): number {
+        const timeInHours = (this.getTimeSpentMinutes() / 60);
         return Math.round(timeInHours * 100) / 100;
     }
 
-    get issueKey(): string {
+    public getIssueKey(): string {
         return this.data.issue.key;
     }
 
-    get description(): string {
+    public getDescription(): string {
         return this.data.description;
     }
 
-    get workType(): string {
-        return this.data.attributes.values[0].value;
+    public getDate(): string {
+        return this.data.startDate;
     }
 }
