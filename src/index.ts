@@ -3,6 +3,7 @@ import TempoApi from "tempo-client";
 // import Config from "./config.json";
 import JiraIssue from "./entity/JiraIssue";
 import Worklog from "./entity/Worklog";
+import Record from "./entity/Record";
 import GenerateEmail from "./GenerateEmail";
 
 interface ITempoDailyEmailOptions {
@@ -12,7 +13,7 @@ interface ITempoDailyEmailOptions {
     jiraDomain: string;
 }
 
-class TempoDailyEmail {
+export default class TempoDailyEmail {
     public readonly tempoApiKey: string;
     public readonly jiraUsername: string;
     public readonly jiraApiKey: string;
@@ -25,7 +26,7 @@ class TempoDailyEmail {
         this.jiraDomain = options.jiraDomain;
     }
 
-    public async retrieveTempoData(from: string, to: string) {
+    public async retrieveTempoData(from: string, to: string): Promise<GenerateEmail> {
         const accountId = await this.getUserAccountId();
         const tempo = this.createTempoClient();
 
@@ -38,20 +39,32 @@ class TempoDailyEmail {
         );
 
         const results = tempoWorklogs.results;
-        const worklogs = [];
         const jira = this.createJiraClient();
+
+        const records: {[id: string] :Record} = {};
+
         for (const index in results) {
             if (!Object.prototype.hasOwnProperty.call(results, index)) {
                 continue;
             }
             const worklog = new Worklog(results[index]);
-            worklogs.push(worklog);
 
-            const issue = await jira.findIssue(worklog.issueKey);
-            const jiraIssue = new JiraIssue(issue, this.jiraDomain);
+            let record;
+            if (worklog.issueKey in records) {
+                record = records[worklog.issueKey]
+            } else {
+                const issue = await jira.findIssue(worklog.issueKey);
+                const jiraIssue = new JiraIssue(issue, this.jiraDomain);
+                record = new Record(jiraIssue);
+                // eslint-disable-next-line require-atomic-updates
+                records[worklog.issueKey] = record
+            }
+
+            record.addWorklog(worklog);
         }
 
-        const emailGenerator = new GenerateEmail(worklogs);
+        const recordArray = Object.keys(records).map(i => records[i]);
+        return new GenerateEmail(recordArray);
     }
 
     private createTempoClient(): TempoApi {
@@ -90,5 +103,6 @@ class TempoDailyEmail {
 //     jiraUsername: Config.jira.username,
 //     tempoApiKey: Config.tempo.apiKey,
 // });
-//
-// temp.retrieveTempoData("2019-10-09", "2019-10-09");
+
+// temp.retrieveTempoData("2019-10-09", "2019-10-09")
+//     .then( ( generateEmail ) => {console.log(generateEmail.generateEmail())});

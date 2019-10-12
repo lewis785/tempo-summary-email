@@ -1,26 +1,30 @@
 import Worklog from "./entity/Worklog";
+import Record from "./entity/Record";
 
 export default class GenerateEmail {
 
     private static generateDetails(worklog: Worklog): string {
-        return `${worklog.issueKey}
-${worklog.description} - ${worklog.timeSpentHours}h (${worklog.timeSpentMinutes}m)
-`;
+        return `    \u2022 ${worklog.description} - ${worklog.timeSpentHours}h (${worklog.timeSpentMinutes}m)\n`;
     }
 
-    private readonly worklogs: Worklog[];
+    private readonly records: Record[];
 
-    constructor(worklogs: Worklog[]) {
-        this.worklogs = worklogs;
+    constructor(records: Record[]) {
+        this.records = records;
     }
 
-    public generateEmail() {
+    public generateEmail(): string {
         let output = "";
-        for (const worklog in this.worklogs) {
-            if (Object.prototype.hasOwnProperty.call(this.worklogs, worklog)) {
-                output += GenerateEmail.generateDetails(this.worklogs[worklog]);
-            }
-        }
+
+        this.records.forEach((record) => {
+            output += `\u2022 ${record.getJiraIssue().getSummary()} (${record.getJiraIssue().getIssueKey()}) - ${record.getJiraIssue().getIssueUrl()}\n`;
+
+            record.getWorklogs().forEach((worklog) => {
+              output += GenerateEmail.generateDetails(worklog)
+            });
+
+            output += "\n";
+        });
 
         return output;
     }

@@ -11,7 +11,11 @@ export default class JiraIssue {
         return `https://${this.domain}/browse/${this.getIssueKey()}`;
     }
 
-    private getIssueKey(): string {
+    public getIssueKey(): string {
         return this.data.key;
+    }
+
+    public getSummary(): string {
+        return this.data.fields.summary;
     }
 }
