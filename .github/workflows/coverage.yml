@@ -13,9 +13,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Build and run coverage
+      run: |
+        npm install
+        npm run build
+        npm run coverage
     - uses: codecov/codecov-action@v1.0.2
       with:
         token: ${{secrets.CODECOV_TOKEN}} #required
-        file: ./coverage.xml #optional
-        flags: unittests #optional
-        name: codecov-umbrella #optional
+#        file: ./build/coverage/clove.xml #optional
