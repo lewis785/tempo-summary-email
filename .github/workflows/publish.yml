@@ -1,6 +1,6 @@
 name: NPM Publish
 
-on: [push]
+on: [release]
 
 jobs:
   build:
@@ -17,8 +17,6 @@ jobs:
       - name: Build and publish
         run: |
           npm install
-          npm version --tag from-git
-          npm run build
-          npm publish -f
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
