@@ -14,10 +14,10 @@ jobs:
         with:
           node-version: 12.x
           registry-url: 'https://registry.npmjs.org'
-      - name: Build and publish
+      - name: Build and publish, ${{ github.release }}
         run: |
           npm install
           npm run build
-          npm publish
+          npm publish --tag from-git
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
