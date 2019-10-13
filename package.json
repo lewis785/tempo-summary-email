@@ -2,12 +2,12 @@
   "name": "tempo-daily-email",
   "version": "0.2.2",
   "description": "Generates a daily email for work completed in jira. Use Tempo and Jira api's",
-  "main": "src/index.js",
+  "main": "src/tempo-summary-email.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
     "eslint": "eslint \"src/**/*.ts\"",
-    "start": "tsc && node \"./build/src/index.js\"",
+    "start": "tsc && node \"./build/src/tempo-summary-email.js\"",
     "test": "jest --config jestconfig.json",
     "coverage": "jest --coverage --config jestconfig.json"
   },

@@ -14,7 +14,7 @@ interface ITempoDailyEmailOptions {
     jiraDomain: string;
 }
 
-export default class TempoDailyEmail {
+export default class TempoSummaryEmail {
     private readonly tempoApiKey: string;
     private readonly jiraUsername: string;
     private readonly jiraApiKey: string;
@@ -99,7 +99,7 @@ export default class TempoDailyEmail {
 }
 
 /** Used for testing */
-// const temp = new TempoDailyEmail({
+// const temp = new TempoSummaryEmail({
 //     jiraApiKey: Config.jira.apiKey,
 //     jiraDomain: Config.jira.domain,
 //     jiraUsername: Config.jira.username,
