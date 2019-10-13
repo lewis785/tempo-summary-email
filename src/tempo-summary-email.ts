@@ -1,6 +1,6 @@
 import JiraApi from "jira-client";
 import TempoApi from "tempo-client";
-// import Config from "./config.json";
+import Config from "./config.json";
 import JiraIssue, {JiraIssueJson} from "./entity/jira-issue";
 import Worklog from "./entity/worklog";
 import SummaryItem from "./entity/summary-item";
@@ -19,6 +19,7 @@ export default class TempoSummaryEmail {
     private readonly jiraUsername: string;
     private readonly jiraApiKey: string;
     private readonly jiraDomain: string;
+    private user?: User;
 
     constructor(options: TempoDailyEmailOptions) {
         this.tempoApiKey = options.tempoApiKey;
@@ -27,7 +28,12 @@ export default class TempoSummaryEmail {
         this.jiraDomain = options.jiraDomain;
     }
 
-    public async retrieveTempoData(from: string, to: string): Promise<GenerateEmail> {
+    public async generateEmailForRange(from: string, to: string) {
+        const summaryItems = await this.retrieveSummaryItems(from, to);
+        return (new GenerateEmail(await this.getUser(), summaryItems)).generateEmail();
+    }
+
+    public async retrieveSummaryItems(from: string, to: string): Promise<SummaryItem[]> {
         const user = await this.getUser();
         const tempo = this.createTempoClient();
 
@@ -64,8 +70,7 @@ export default class TempoSummaryEmail {
             summaryItem.addWorklog(worklog);
         }
 
-        const summaryItemArray = Object.keys(summaryItems).map(i => summaryItems[i]);
-        return new GenerateEmail(user, summaryItemArray);
+        return Object.keys(summaryItems).map(i => summaryItems[i]);
     }
 
     private createTempoClient(): TempoApi {
@@ -89,22 +94,27 @@ export default class TempoSummaryEmail {
     }
 
     private async getUser(): Promise<User> {
+        if(typeof(this.user) !== "undefined") {
+            return this.user;
+        }
+
         const jira = this.createJiraClient();
         const response = await jira.getCurrentUser().catch((reason) => {
             throw new Error(reason);
         }) as UserJson;
 
-        return new User(response);
+        this.user = new User(response);
+        return this.user
     }
 }
 
 /** Used for testing */
-// const temp = new TempoSummaryEmail({
-//     jiraApiKey: Config.jira.apiKey,
-//     jiraDomain: Config.jira.domain,
-//     jiraUsername: Config.jira.username,
-//     tempoApiKey: Config.tempo.apiKey,
-// });
-//
-// temp.retrieveTempoData("2019-10-09", "2019-10-12")
-//     .then( ( generateEmail ) => {console.log(generateEmail.generateEmail())});
+const temp = new TempoSummaryEmail({
+    jiraApiKey: Config.jira.apiKey,
+    jiraDomain: Config.jira.domain,
+    jiraUsername: Config.jira.username,
+    tempoApiKey: Config.tempo.apiKey,
+});
+
+temp.generateEmailForRange("2019-10-09", "2019-10-09")
+    .then( ( response ) => {console.log(response)});
