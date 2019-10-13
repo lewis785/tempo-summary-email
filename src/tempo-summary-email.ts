@@ -1,6 +1,6 @@
 import JiraApi from "jira-client";
 import TempoApi from "tempo-client";
-import Config from "./config.json";
+// import Config from "./config.json";
 import JiraIssue, {JiraIssueJson} from "./entity/jira-issue";
 import Worklog from "./entity/worklog";
 import SummaryItem from "./entity/summary-item";
@@ -36,25 +36,17 @@ export default class TempoSummaryEmail {
     public async retrieveSummaryItems(from: string, to: string): Promise<SummaryItem[]> {
         const user = await this.getUser();
         const tempo = this.createTempoClient();
-
-        const tempoWorklogs = await tempo.getWorklogsForUser(
-            user.getAccountId(),
-            {
-                from,
-                to,
-            },
-        );
-
-        const results = tempoWorklogs.results;
         const jira = this.createJiraClient();
+
+        const tempoWorklogs = await tempo.getWorklogsForUser(user.getAccountId(), {from, to}).then((response) => {return response.results});
 
         const summaryItems: {[id: string] :SummaryItem} = {};
 
-        for (const index in results) {
-            if (!Object.prototype.hasOwnProperty.call(results, index)) {
+        for (const index in tempoWorklogs) {
+            if (!Object.prototype.hasOwnProperty.call(tempoWorklogs, index)) {
                 continue;
             }
-            const worklog = new Worklog(results[index]);
+            const worklog = new Worklog(tempoWorklogs[index]);
 
             let summaryItem;
             if (worklog.getIssueKey() in summaryItems) {
@@ -109,12 +101,12 @@ export default class TempoSummaryEmail {
 }
 
 /** Used for testing */
-const temp = new TempoSummaryEmail({
-    jiraApiKey: Config.jira.apiKey,
-    jiraDomain: Config.jira.domain,
-    jiraUsername: Config.jira.username,
-    tempoApiKey: Config.tempo.apiKey,
-});
-
-temp.generateEmailForRange("2019-10-09", "2019-10-09")
-    .then( ( response ) => {console.log(response)});
+// const temp = new TempoSummaryEmail({
+//     jiraApiKey: Config.jira.apiKey,
+//     jiraDomain: Config.jira.domain,
+//     jiraUsername: Config.jira.username,
+//     tempoApiKey: Config.tempo.apiKey,
+// });
+//
+// temp.generateEmailForRange("2019-10-09", "2019-10-09")
+//     .then( ( response ) => {console.log(response)});
