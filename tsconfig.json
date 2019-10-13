@@ -7,7 +7,7 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "build",
+    "outDir": "lib",
     "baseUrl": ".",
     "paths": {
       "*": [
@@ -17,7 +17,10 @@
     "strict": true
   },
   "include": [
-    "src",
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
     "tests"
   ]
 }
