@@ -30,13 +30,18 @@ export default class GenerateEmail {
     }
 
     public generateEmail(): string {
-        return`Hi,
+        let body = `Hi {{recipient_name}},
         
 Today I have worked on:
 
-${this.buildWorklog()}
+{{worklogs}}
 
 Thanks,
-${this.user.getDisplayName()}`;
+{{sender_name}}`;
+
+        body = body.replace("{{recipient_name}}", "");
+        body = body.replace("{{worklogs}}", this.buildWorklog());
+        body = body.replace("{{sender_name}}", this.user.getDisplayName());
+        return body
     }
 }
