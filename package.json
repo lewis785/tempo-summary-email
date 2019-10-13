@@ -10,7 +10,6 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "eslint": "eslint \"src/**/*.ts\"",
-    "start": "tsc && node \"./lib/tempo-summary-email.js\"",
     "test": "jest --config jestconfig.json",
     "coverage": "jest --coverage --config jestconfig.json",
     "gitversion": "git add -A src",
