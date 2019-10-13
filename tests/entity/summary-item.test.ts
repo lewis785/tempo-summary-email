@@ -1,10 +1,10 @@
 // import JiraIssue from "../../src/entity/JiraIssue";
-import SummaryItem from "../../src/entity/SummaryItem";
-import JiraIssue from "../../src/entity/JiraIssue";
-import Worklog from "../../src/entity/Worklog";
+import SummaryItem from "../../src/entity/summary-item";
+import JiraIssue from "../../src/entity/jira-issue";
+import Worklog from "../../src/entity/worklog";
 
-jest.mock("../../src/entity/JiraIssue");
-jest.mock("../../src/entity/Worklog");
+jest.mock("../../src/entity/jira-issue");
+jest.mock("../../src/entity/worklog");
 
 it("getJiraIssue", () => {
     const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");

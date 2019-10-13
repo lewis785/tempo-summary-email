@@ -1,11 +1,11 @@
 import JiraApi from "jira-client";
 import TempoApi from "tempo-client";
 // import Config from "./config.json";
-import JiraIssue, {JiraIssueJson} from "./entity/JiraIssue";
-import Worklog from "./entity/Worklog";
-import SummaryItem from "./entity/SummaryItem";
-import GenerateEmail from "./GenerateEmail";
-import User, {UserJson} from "./entity/User";
+import JiraIssue, {JiraIssueJson} from "./entity/jira-issue";
+import Worklog from "./entity/worklog";
+import SummaryItem from "./entity/summary-item";
+import GenerateEmail from "./generate-email";
+import User, {UserJson} from "./entity/user";
 
 interface ITempoDailyEmailOptions {
     tempoApiKey: string;

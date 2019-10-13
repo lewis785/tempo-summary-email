@@ -1,4 +1,4 @@
-import JiraIssue from "../../src/entity/JiraIssue";
+import JiraIssue from "../../src/entity/jira-issue";
 
 it("getIssueUrl", () => {
     const jiraIssue = new JiraIssue(testData, exampleDomain);

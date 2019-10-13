@@ -1,4 +1,4 @@
-import User from "../../src/entity/User";
+import User from "../../src/entity/user";
 
 const testData = {
     accountId: "abcdef123456",

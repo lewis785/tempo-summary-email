@@ -1,4 +1,4 @@
-import Worklog from "../../src/entity/Worklog";
+import Worklog from "../../src/entity/worklog";
 
 it("timeSpentSeconds", () => {
     const worklog = new Worklog(exampleData);

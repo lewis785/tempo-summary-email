@@ -1,5 +1,5 @@
-import JiraIssue from "./JiraIssue";
-import Worklog from "./Worklog"
+import JiraIssue from "./jira-issue";
+import Worklog from "./worklog"
 
 export default class SummaryItem {
     private readonly jiraIssue: JiraIssue;

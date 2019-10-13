@@ -1,6 +1,6 @@
-import Worklog from "./entity/Worklog";
-import SummaryItem from "./entity/SummaryItem";
-import User from "./entity/User";
+import Worklog from "./entity/worklog";
+import SummaryItem from "./entity/summary-item";
+import User from "./entity/user";
 
 export default class GenerateEmail {
 
