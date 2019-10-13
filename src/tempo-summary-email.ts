@@ -35,30 +35,29 @@ export default class TempoSummaryEmail {
 
     public async retrieveSummaryItems(from: string, to: string): Promise<SummaryItem[]> {
         const user = await this.getUser();
-        const tempo = this.createTempoClient();
         const jira = this.createJiraClient();
 
-        const tempoWorklogs = await tempo.getWorklogsForUser(user.getAccountId(), {from, to}).then((response) => {return response.results});
+        const tempoWorklogs = await this.createTempoClient().getWorklogsForUser(user.getAccountId(), {from, to})
+            .then((response) => {return response.results});
 
         const summaryItems: {[id: string] :SummaryItem} = {};
 
-        for (const index in tempoWorklogs) {
-            if (!Object.prototype.hasOwnProperty.call(tempoWorklogs, index)) {
+        for (const tempoWorklogsKey in tempoWorklogs) {
+            if (!Object.prototype.hasOwnProperty.call(tempoWorklogs, tempoWorklogsKey)) {
                 continue;
             }
-            const worklog = new Worklog(tempoWorklogs[index]);
+            const worklog = new Worklog(tempoWorklogs[tempoWorklogsKey]);
+            const issueKey = worklog.getIssueKey();
 
             let summaryItem;
-            if (worklog.getIssueKey() in summaryItems) {
-                summaryItem = summaryItems[worklog.getIssueKey()]
+            if (issueKey in summaryItems) {
+                summaryItem = summaryItems[issueKey]
             } else {
-                const issue = await jira.findIssue(worklog.getIssueKey()) as JiraIssueJson;
-                const jiraIssue = new JiraIssue(issue, this.jiraDomain);
-                summaryItem = new SummaryItem(jiraIssue);
+                const issue = await jira.findIssue(issueKey) as JiraIssueJson;
+                summaryItem = new SummaryItem(new JiraIssue(issue, this.jiraDomain));
                 // eslint-disable-next-line require-atomic-updates
-                summaryItems[worklog.getIssueKey()] = summaryItem
+                summaryItems[issueKey] = summaryItem
             }
-
             summaryItem.addWorklog(worklog);
         }
 
