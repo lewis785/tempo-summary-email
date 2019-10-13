@@ -1,5 +1,5 @@
 {
-  "name": "tempo-daily-email",
+  "name": "tempo-summary-email",
   "version": "0.2.3",
   "description": "Generates a daily email for work completed in jira. Use Tempo and Jira api's",
   "main": "src/tempo-summary-email.ts",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lewis785/tempo-daily-email.git"
+    "url": "https://github.com/lewis785/tempo-summary-email.git"
   },
   "keywords": [
     "Tempo",
@@ -22,9 +22,9 @@
   "author": "Lewis McNeill",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lewis785/tempo-daily-email/issues"
+    "url": "https://github.com/lewis785/tempo-summary-email/issues"
   },
-  "homepage": "https://github.com/lewis785/tempo-daily-email#readme",
+  "homepage": "https://github.com/lewis785/tempo-summary-email#readme",
   "dependencies": {
     "jira-client": "^6.12.0",
     "tempo-client": "^0.1.2"
