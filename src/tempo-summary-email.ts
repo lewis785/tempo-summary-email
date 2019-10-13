@@ -98,14 +98,3 @@ export default class TempoSummaryEmail {
         return this.user
     }
 }
-
-/** Used for testing */
-// const temp = new TempoSummaryEmail({
-//     jiraApiKey: Config.jira.apiKey,
-//     jiraDomain: Config.jira.domain,
-//     jiraUsername: Config.jira.username,
-//     tempoApiKey: Config.tempo.apiKey,
-// });
-//
-// temp.generateEmailForRange("2019-10-09", "2019-10-09")
-//     .then( ( response ) => {console.log(response)});
