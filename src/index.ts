@@ -15,10 +15,10 @@ interface ITempoDailyEmailOptions {
 }
 
 export default class TempoDailyEmail {
-    public readonly tempoApiKey: string;
-    public readonly jiraUsername: string;
-    public readonly jiraApiKey: string;
-    public readonly jiraDomain: string;
+    private readonly tempoApiKey: string;
+    private readonly jiraUsername: string;
+    private readonly jiraApiKey: string;
+    private readonly jiraDomain: string;
 
     constructor(options: ITempoDailyEmailOptions) {
         this.tempoApiKey = options.tempoApiKey;
