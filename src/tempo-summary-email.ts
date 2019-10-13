@@ -7,7 +7,7 @@ import SummaryItem from "./entity/summary-item";
 import GenerateEmail from "./generate-email";
 import User, {UserJson} from "./entity/user";
 
-interface ITempoDailyEmailOptions {
+interface TempoDailyEmailOptions {
     tempoApiKey: string;
     jiraUsername: string;
     jiraApiKey: string;
@@ -20,7 +20,7 @@ export default class TempoSummaryEmail {
     private readonly jiraApiKey: string;
     private readonly jiraDomain: string;
 
-    constructor(options: ITempoDailyEmailOptions) {
+    constructor(options: TempoDailyEmailOptions) {
         this.tempoApiKey = options.tempoApiKey;
         this.jiraUsername = options.jiraUsername;
         this.jiraApiKey = options.jiraApiKey;
