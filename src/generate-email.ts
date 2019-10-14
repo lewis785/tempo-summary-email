@@ -4,14 +4,12 @@ import User from "./entity/user";
 
 export default class GenerateEmail {
 
-    private static generateDetails(worklog: Worklog): string {
-        return `\t\u2022 (${worklog.getDate()}) [${worklog.getTimeSpentMinutes()}m/${worklog.getTimeSpentHours()}h] - ${worklog.getDescription()}\n`;
-    }
+    private readonly showDate: boolean;
 
     private readonly summaryItems: SummaryItem[];
     private readonly user: User;
-
-    constructor(user: User, records: SummaryItem[]) {
+    constructor(user: User, records: SummaryItem[], showTempoDate: boolean = false) {
+        this.showDate = showTempoDate;
         this.summaryItems = records;
         this.user = user;
     }
@@ -20,19 +18,23 @@ export default class GenerateEmail {
         let worklogText = "";
         this.summaryItems.forEach((summaryItem) => {
             worklogText += `\n${summaryItem.getJiraIssue().getSummary()} (${summaryItem.getJiraIssue().getIssueKey()}): ${summaryItem.getJiraIssue().getIssueUrl()}\n`;
-
             summaryItem.getWorklogs().forEach((worklog) => {
-                worklogText += GenerateEmail.generateDetails(worklog)
+                worklogText += this.generateTempoIssue(worklog)
             });
         });
 
         return worklogText.replace(/^\s+|\s+$/g, '');
     }
 
+    private generateTempoIssue(worklog: Worklog): string {
+        const date = this.showDate ? `(${worklog.getDate()})` : "";
+        return `\t\u2022 ${date} [${worklog.getTimeSpentMinutes()}m/${worklog.getTimeSpentHours()}h] - ${worklog.getDescription()}\n`;
+    }
+
     public generateEmail(): string {
         let body = `Hi {{recipient_name}},
         
-Today I have worked on:
+I have worked on:
 
 {{worklogs}}
 
