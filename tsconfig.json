@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "target": "es2015",
     "module": "commonjs",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "target": "es5",
     "noImplicitAny": true,
+    "declaration": true,
     "moduleResolution": "node",
+    "strict": true,
     "sourceMap": true,
     "outDir": "lib",
     "baseUrl": ".",
@@ -13,8 +15,7 @@
       "*": [
         "node_modules/*"
       ]
-    },
-    "strict": true
+    }
   },
   "include": [
     "src"
