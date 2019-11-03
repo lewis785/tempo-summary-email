@@ -1,40 +1,41 @@
+import {ResponseTypes} from "tempo-client";
 import Worklog from "../../src/entity/worklog";
 
-it("timeSpentSeconds", () => {
-    const worklog = new Worklog(exampleData);
-    expect(worklog.getTimeSpentSeconds()).toBe(1200);
-});
+describe(Worklog, () => {
+    const exampleData: Partial<ResponseTypes.IWorklogResponse> = {
+        description: "This is an example description",
+        issue: {
+            self: "https://example.com/api/issue/ABC-123",
+            key: "ABC-123",
+        },
+        timeSpentSeconds: 1200,
+        startDate: '2019-01-01'
+    };
 
-it("timeSpentMinute", () => {
+    //@ts-ignore
     const worklog = new Worklog(exampleData);
-    expect(worklog.getTimeSpentMinutes()).toBe(20);
-});
 
-it("timeSpentHour", () => {
-    const worklog = new Worklog(exampleData);
-    expect(worklog.getTimeSpentHours()).toBe(0.33);
-});
+    it("timeSpentSeconds", () => {
+        expect(worklog.getTimeSpentSeconds()).toBe(1200);
+    });
 
-it("issueKey", () => {
-    const worklog = new Worklog(exampleData);
-    expect(worklog.getIssueKey()).toBe("ABC-123");
-});
+    it("timeSpentMinute", () => {
+        expect(worklog.getTimeSpentMinutes()).toBe(20);
+    });
 
-it("description", () => {
-    const worklog = new Worklog(exampleData);
-    expect(worklog.getDescription()).toBe("This is an example description");
-});
+    it("timeSpentHour", () => {
+        expect(worklog.getTimeSpentHours()).toBe(0.33);
+    });
 
-it("date", () => {
-    const worklog = new Worklog(exampleData);
-    expect(worklog.getDate()).toBe("2019-01-01");
-});
+    it("issueKey", () => {
+        expect(worklog.getIssueKey()).toBe("ABC-123");
+    });
 
-const exampleData = {
-    description: "This is an example description",
-    issue: {
-        key: "ABC-123",
-    },
-    timeSpentSeconds: 1200,
-    startDate: '2019-01-01'
-};
+    it("description", () => {
+        expect(worklog.getDescription()).toBe("This is an example description");
+    });
+
+    it("date", () => {
+        expect(worklog.getDate()).toBe("2019-01-01");
+    });
+})

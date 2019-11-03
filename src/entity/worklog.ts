@@ -1,17 +1,9 @@
-export interface WorklogJson {
-    timeSpentSeconds: number;
-    issue: {
-        key: string;
-    };
-    description: string;
-    startDate: string;
-}
-
+import {ResponseTypes} from "tempo-client";
 
 export default class Worklog {
-    private data: WorklogJson;
+    private data: ResponseTypes.IWorklogResponse;
 
-    constructor(data: WorklogJson) {
+    constructor(data: ResponseTypes.IWorklogResponse) {
         this.data = data;
     }
 

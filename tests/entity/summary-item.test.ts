@@ -1,4 +1,4 @@
-// import JiraIssue from "../../src/entity/JiraIssue";
+import {ResponseTypes} from "tempo-client";
 import SummaryItem from "../../src/entity/summary-item";
 import JiraIssue from "../../src/entity/jira-issue";
 import Worklog from "../../src/entity/worklog";
@@ -14,6 +14,7 @@ it("getJiraIssue", () => {
 
 it("test add and get worklog", () => {
     const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");
+    //@ts-ignore
     const worklog = new Worklog(worklogJson);
     const record = new SummaryItem(jiraIssue);
     record.addWorklog(worklog);
@@ -27,9 +28,10 @@ const jiraIssueJson = {
     }
 };
 
-const worklogJson = {
+const worklogJson: Partial<ResponseTypes.IWorklogResponse> = {
     timeSpentSeconds: 1200,
     issue: {
+        self: "https://example.com/api/issue/ABC-123",
         key: "ABC-123"
     },
     description: "This is a test description",
