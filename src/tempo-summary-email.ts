@@ -38,7 +38,7 @@ export default class TempoSummaryEmail {
         const tempo = this.createTempoClient();
         const jira = this.createJiraClient();
 
-        const tempoWorklogs = await tempo.getWorklogsForUser(user.getAccountId(), {from, to}).then((response) => {return response.results});
+        const tempoWorklogs = await tempo.worklogs.getForUser(user.getAccountId(), {from, to}).then((response) => {return response.results});
 
         const summaryItems: {[id: string] :SummaryItem} = {};
 
