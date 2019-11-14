@@ -67,4 +67,4 @@ typings/
 src/config.json
 
 # build directory
-build/
+lib/
