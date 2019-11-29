@@ -3,5 +3,6 @@
     "^.+\\.tsx?$": "ts-jest"
   },
   "testRegex": "/tests/.*\\.(test|spec)?\\.(ts|tsx)$",
-  "collectCoverageFrom": ["src/**/*.ts"]
+  "collectCoverageFrom": ["src/**/*.ts"],
+  "coveragePathIgnorePatterns": ["/__mock__/"]
 }
