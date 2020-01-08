@@ -5,13 +5,29 @@ import User from "./entity/user";
 export default class GenerateEmail {
 
     private readonly showDate: boolean;
-
     private readonly summaryItems: SummaryItem[];
     private readonly user: User;
+
     constructor(user: User, records: SummaryItem[], showTempoDate: boolean = false) {
         this.showDate = showTempoDate;
         this.summaryItems = records;
         this.user = user;
+    }
+
+    public generateEmail(): string {
+        let body = `Hi {{recipient_name}},
+        
+I have worked on:
+
+{{worklogs}}
+
+Thanks,
+{{sender_name}}`;
+
+        body = body.replace("{{recipient_name}}", "");
+        body = body.replace("{{worklogs}}", this.buildWorklog());
+        body = body.replace("{{sender_name}}", this.user.getDisplayName());
+        return body
     }
 
     private buildWorklog(): string {
@@ -29,21 +45,5 @@ export default class GenerateEmail {
     private generateTempoIssue(worklog: Worklog): string {
         const date = this.showDate ? `(${worklog.getDate()})` : "";
         return `\t\u2022 ${date} [${worklog.getTimeSpentMinutes()}m/${worklog.getTimeSpentHours()}h] - ${worklog.getDescription()}\n`;
-    }
-
-    public generateEmail(): string {
-        let body = `Hi {{recipient_name}},
-        
-I have worked on:
-
-{{worklogs}}
-
-Thanks,
-{{sender_name}}`;
-
-        body = body.replace("{{recipient_name}}", "");
-        body = body.replace("{{worklogs}}", this.buildWorklog());
-        body = body.replace("{{sender_name}}", this.user.getDisplayName());
-        return body
     }
 }

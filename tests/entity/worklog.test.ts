@@ -38,4 +38,4 @@ describe(Worklog, () => {
     it("date", () => {
         expect(worklog.getDate()).toBe("2019-01-01");
     });
-})
+});
