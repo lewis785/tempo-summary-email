@@ -28,7 +28,7 @@ const jiraIssueJson = {
     }
 };
 
-const worklogJson: Partial<ResponseTypes.IWorklogResponse> = {
+const worklogJson: Partial<ResponseTypes.WorklogResponse> = {
     timeSpentSeconds: 1200,
     issue: {
         self: "https://example.com/api/issue/ABC-123",
