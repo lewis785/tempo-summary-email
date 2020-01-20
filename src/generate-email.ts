@@ -8,7 +8,7 @@ export default class GenerateEmail {
     private readonly summaryItems: SummaryItem[];
     private readonly user: User;
 
-    constructor(user: User, records: SummaryItem[], showTempoDate: boolean = false) {
+    constructor(user: User, records: SummaryItem[], showTempoDate = false) {
         this.showDate = showTempoDate;
         this.summaryItems = records;
         this.user = user;

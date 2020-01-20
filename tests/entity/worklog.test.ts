@@ -1,8 +1,9 @@
 import {ResponseTypes} from "tempo-client";
+import {WorklogResponse} from "tempo-client/lib/responseTypes";
 import Worklog from "../../src/entity/worklog";
 
 describe(Worklog, () => {
-    const exampleData: Partial<ResponseTypes.IWorklogResponse> = {
+    const exampleData: Partial<ResponseTypes.WorklogResponse> = {
         description: "This is an example description",
         issue: {
             self: "https://example.com/api/issue/ABC-123",
@@ -12,8 +13,7 @@ describe(Worklog, () => {
         startDate: '2019-01-01'
     };
 
-    //@ts-ignore
-    const worklog = new Worklog(exampleData);
+    const worklog = new Worklog(exampleData as WorklogResponse);
 
     it("timeSpentSeconds", () => {
         expect(worklog.getTimeSpentSeconds()).toBe(1200);
