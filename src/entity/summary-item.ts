@@ -10,7 +10,7 @@ export default class SummaryItem {
         this.worklogs = [];
     }
 
-    public addWorklog(worklog: Worklog) {
+    public addWorklog(worklog: Worklog): void {
         this.worklogs.push(worklog);
     }
 

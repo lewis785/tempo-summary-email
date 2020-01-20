@@ -27,7 +27,7 @@ export default class TempoSummaryEmail {
         this.jiraDomain = options.jiraDomain;
     }
 
-    public async generateEmailForRange(fromDate: string, toDate: string) {
+    public async generateEmailForRange(fromDate: string, toDate: string): Promise<string> {
         const summaryItems = await this.retrieveSummaryItems(fromDate, toDate);
         const showDates = (fromDate !== toDate);
         return (new GenerateEmail(await this.getUser(), summaryItems, showDates)).generateEmail();
@@ -40,7 +40,7 @@ export default class TempoSummaryEmail {
 
         const tempoWorklogs = await tempo.worklogs.getForUser(user.getAccountId(), {from, to}).then((response) => {return response.results});
 
-        const summaryItems: {[id: string] :SummaryItem} = {};
+        const summaryItems: {[id: string]: SummaryItem} = {};
 
         for (const index in tempoWorklogs) {
             if (!Object.prototype.hasOwnProperty.call(tempoWorklogs, index)) {
