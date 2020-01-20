@@ -2,7 +2,7 @@ import {ResponseTypes} from "tempo-client";
 import Worklog from "../../src/entity/worklog";
 
 describe(Worklog, () => {
-    const exampleData: Partial<ResponseTypes.IWorklogResponse> = {
+    const exampleData: Partial<ResponseTypes.WorklogResponse> = {
         description: "This is an example description",
         issue: {
             self: "https://example.com/api/issue/ABC-123",
@@ -38,4 +38,4 @@ describe(Worklog, () => {
     it("date", () => {
         expect(worklog.getDate()).toBe("2019-01-01");
     });
-})
+});
