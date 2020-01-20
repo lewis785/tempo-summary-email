@@ -4,23 +4,6 @@ import Worklog from "../worklog";
 jest.mock("../jira-issue");
 jest.mock("../worklog");
 
-export default class SummaryItem {
-    constructor() {
-        console.log("Mock constructor");
-    }
-
-    public addWorklog() {
-    }
-
-    public getJiraIssue(): JiraIssue {
-        return new JiraIssue({fields: {summary: ""}, key: ""},'test');
-    }
-
-    public getWorklogs(): Worklog[] {
-        return [new Worklog(mockData)];
-    }
-}
-
 const mockData = {
     self: "https://api.tempo.io/core/3/worklogs",
     attributes: {self: "", values: []},
@@ -41,3 +24,20 @@ const mockData = {
     timeSpentSeconds: 1800,
     updatedAt: "2019-01-01T17:00:00Z"
 };
+
+export default class SummaryItem {
+    constructor() {
+        console.log("Mock constructor");
+    }
+
+    public addWorklog() {
+    }
+
+    public getJiraIssue(): JiraIssue {
+        return new JiraIssue({fields: {summary: ""}, key: ""},'test');
+    }
+
+    public getWorklogs(): Worklog[] {
+        return [new Worklog(mockData)];
+    }
+}

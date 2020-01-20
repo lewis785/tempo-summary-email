@@ -3,6 +3,7 @@ import SummaryItem from "../src/entity/summary-item";
 import User from "../src/entity/user";
 import Worklog from "../src/entity/worklog";
 import GenerateEmail from "../src/generate-email";
+
 jest.mock('../src/entity/user');
 jest.mock('../src/entity/worklog');
 jest.mock('../src/entity/summary-item');
