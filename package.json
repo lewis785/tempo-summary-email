@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "eslint": "eslint \"src/**/*.ts\"",
+    "eslint": "eslint --ext .ts 'src/**/*.ts' 'tests/**/*.ts'",
+    "fix": "eslint --ext .ts --fix 'src/**/*.ts' 'tests/**/*.ts'",
     "test": "jest --config jestconfig.json",
     "coverage": "jest --coverage --config jestconfig.json",
     "gitversion": "git add -A src",

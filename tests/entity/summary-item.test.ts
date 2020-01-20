@@ -6,21 +6,6 @@ import Worklog from "../../src/entity/worklog";
 jest.mock("../../src/entity/jira-issue");
 jest.mock("../../src/entity/worklog");
 
-it("getJiraIssue", () => {
-    const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");
-    const record = new SummaryItem(jiraIssue);
-    expect(record.getJiraIssue()).toBe(jiraIssue)
-});
-
-it("test add and get worklog", () => {
-    const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");
-    //@ts-ignore
-    const worklog = new Worklog(worklogJson);
-    const record = new SummaryItem(jiraIssue);
-    record.addWorklog(worklog);
-    expect(record.getWorklogs()).toStrictEqual([worklog])
-});
-
 const jiraIssueJson = {
     key: "ABC-123",
     fields: {
@@ -28,7 +13,19 @@ const jiraIssueJson = {
     }
 };
 
-const worklogJson: Partial<ResponseTypes.WorklogResponse> = {
+const worklogJson: ResponseTypes.WorklogResponse = {
+    attributes: {self: "", values: []},
+    author: {
+        self: "",
+        accountId: "JohnSmith",
+        displayName: "John Smith"
+    },
+    billableSeconds: 0,
+    createdAt: "",
+    self: "",
+    startTime: "",
+    tempoWorklogId: 0,
+    updatedAt: "",
     timeSpentSeconds: 1200,
     issue: {
         self: "https://example.com/api/issue/ABC-123",
@@ -37,3 +34,17 @@ const worklogJson: Partial<ResponseTypes.WorklogResponse> = {
     description: "This is a test description",
     startDate: "2019-01-01"
 };
+
+it("getJiraIssue", () => {
+    const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");
+    const record = new SummaryItem(jiraIssue);
+    expect(record.getJiraIssue()).toBe(jiraIssue)
+});
+
+it("test add and get worklog", () => {
+    const jiraIssue = new JiraIssue(jiraIssueJson,"test.net");
+    const worklog = new Worklog(worklogJson);
+    const record = new SummaryItem(jiraIssue);
+    record.addWorklog(worklog);
+    expect(record.getWorklogs()).toStrictEqual([worklog])
+});
