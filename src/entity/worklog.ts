@@ -1,9 +1,9 @@
 import {ResponseTypes} from "tempo-client";
 
 export default class Worklog {
-    private data: ResponseTypes.IWorklogResponse;
+    private data: ResponseTypes.WorklogResponse;
 
-    constructor(data: ResponseTypes.IWorklogResponse) {
+    constructor(data: ResponseTypes.WorklogResponse) {
         this.data = data;
     }
 
