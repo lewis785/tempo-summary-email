@@ -9,13 +9,15 @@
   ],
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
+    "watch": "tsc --watch",
     "eslint": "eslint --ext .ts 'src/**/*.ts' 'tests/**/*.ts'",
-    "fix": "eslint --ext .ts --fix 'src/**/*.ts' 'tests/**/*.ts'",
+    "esfix": "eslint --ext .ts --fix 'src/**/*.ts' 'tests/**/*.ts'",
     "test": "jest --config jestconfig.json",
     "coverage": "jest --coverage --config jestconfig.json",
-    "gitversion": "git add -A src",
-    "postgitversion": "git push && git push --tags"
+    "prepublishOnly": "npm test && npm run eslint",
+    "preversion": "npm run eslint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",

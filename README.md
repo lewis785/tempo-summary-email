@@ -39,9 +39,9 @@ tempoSummaryEmail.generateEmailForRange("2020-01-01", "2020-01-01")
 ```
 
 ## Development
-This project contains a Dockerfile which can be 
+For development this project contains a Dockerfile which can be started using the command:
 ```shell script
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 To access the docker container run:
@@ -51,6 +51,7 @@ docker-compose exec tempo-summary-email bash
 
 During development it's recommend to run:
 ```shell script
-npm run dev
+npm run watch
 ```
+This causes any changes done to in typescript to be immediately compiled into javascript. 
 
