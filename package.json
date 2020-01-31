@@ -1,6 +1,6 @@
 {
   "name": "tempo-summary-email",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "Generates a daily email for work completed in jira, using Tempo and Jira api's",
   "main": "lib/tempo-summary-email.js",
   "types": "lib/tempo-summary-email.d.ts",
@@ -9,13 +9,15 @@
   ],
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
+    "watch": "tsc --watch",
     "eslint": "eslint --ext .ts 'src/**/*.ts' 'tests/**/*.ts'",
-    "fix": "eslint --ext .ts --fix 'src/**/*.ts' 'tests/**/*.ts'",
+    "esfix": "eslint --ext .ts --fix 'src/**/*.ts' 'tests/**/*.ts'",
     "test": "jest --config jestconfig.json",
     "coverage": "jest --coverage --config jestconfig.json",
-    "gitversion": "git add -A src",
-    "postgitversion": "git push && git push --tags"
+    "prepublishOnly": "npm test && npm run eslint",
+    "preversion": "npm run eslint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -33,16 +35,17 @@
   "homepage": "https://github.com/lewis785/tempo-summary-email#readme",
   "dependencies": {
     "jira-client": "^6.14.0",
-    "tempo-client": "^3.0.0"
+    "tempo-client": "^3.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.9.0",
+    "@types/jest": "^24.9.1",
     "@types/jira-client": "^6.13.1",
     "@types/request-promise": "^4.1.45",
-    "@typescript-eslint/eslint-plugin": "^2.17.0",
-    "@typescript-eslint/parser": "^2.17.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "eslint": "^6.8.0",
     "jest": "^24.9.0",
+    "jest-mock-extended": "^1.0.7",
     "ts-jest": "^24.3.0",
     "typescript": "^3.7.5"
   }

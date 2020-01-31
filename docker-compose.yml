@@ -2,8 +2,6 @@ version: '3.5'
 
 services:
   tempo-summary-email:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     volumes:
       - .:/app/
