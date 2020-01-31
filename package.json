@@ -1,6 +1,6 @@
 {
   "name": "tempo-summary-email",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Generates a daily email for work completed in jira, using Tempo and Jira api's",
   "main": "lib/tempo-summary-email.js",
   "types": "lib/tempo-summary-email.d.ts",
