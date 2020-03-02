@@ -32,7 +32,7 @@ export default class GenerateEmail {
     }
 
     public generateEmail(): string {
-        let body = `Hi {{recipient_name}},
+        let body = `Hi{{recipient_name}},
         
 I have worked on:
 
